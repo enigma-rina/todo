@@ -21,6 +21,7 @@
     if (savedData) {
       toDoListArray = JSON.parse(savedData);
       toDoListArray.forEach((item) => addItemToDOM(item.itemId, item.toDoItem, item.completed));
+      updateProgressBar();
     }
   }
 
@@ -80,15 +81,6 @@
     const totalTasks = toDoListArray.length;
     const progressPercentage = totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
     progressBar.style.width = progressPercentage + "%";
-  }
-
-  function loadData() {
-    const savedData = localStorage.getItem("toDoListArray");
-    if (savedData) {
-      toDoListArray = JSON.parse(savedData);
-      toDoListArray.forEach((item) => addItemToDOM(item.itemId, item.toDoItem, item.completed));
-      updateProgressBar();
-    }
   }
 
   displayDate();
