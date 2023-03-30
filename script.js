@@ -32,6 +32,7 @@
     addItemToArray(itemId, toDoItem);
     input.value = "";
     saveData();
+    updateProgressBar();
   });
 
   ul.addEventListener("click", (e) => {
@@ -47,6 +48,7 @@
       li.style.textDecoration = "line-through";
     }
     saveData();
+    updateProgressBar();
   });
 
   function addItemToDOM(itemId, toDoItem, completed = false) {
@@ -70,6 +72,23 @@
 
   function removeItemFromArray(id) {
     toDoListArray = toDoListArray.filter((item) => item.itemId !== id);
+  }
+
+  function updateProgressBar() {
+    const progressBar = document.querySelector(".progress-bar");
+    const completedTasks = toDoListArray.filter((item) => item.completed).length;
+    const totalTasks = toDoListArray.length;
+    const progressPercentage = totalTasks === 0 ? 0 : (completedTasks / totalTasks) * 100;
+    progressBar.style.width = progressPercentage + "%";
+  }
+
+  function loadData() {
+    const savedData = localStorage.getItem("toDoListArray");
+    if (savedData) {
+      toDoListArray = JSON.parse(savedData);
+      toDoListArray.forEach((item) => addItemToDOM(item.itemId, item.toDoItem, item.completed));
+      updateProgressBar();
+    }
   }
 
   displayDate();
